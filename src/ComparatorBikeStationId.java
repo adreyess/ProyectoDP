@@ -18,7 +18,8 @@ public class ComparatorBikeStationId implements Comparator<BikeStation>
      * station's ID is less than, equal to, or greater than the second.
      */
     public int compare(BikeStation st1, BikeStation st2){  
-        //TODO: Complete this code   
-        return 0;
+        int resultado = st1.getId().compareTo(st2.getId());
+        
+        return resultado;
     } 
 }

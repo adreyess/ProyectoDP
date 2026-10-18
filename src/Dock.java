@@ -9,7 +9,12 @@ import java.util.List;
  */
 public class Dock
 {
-    //TODO: Complete this code
+    private String idDock;
+    private float chargingSpeed;
+    private float chargingFee;
+    private List<ElectricBike> bikesRecharged;
+    private float amountCollected;
+    private boolean free;
 
     /**
      * Constructor for objects of class Dock.

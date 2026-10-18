@@ -11,15 +11,19 @@ import java.util.stream.Collectors;
  */
 public class BikeStation
 {
-    //TODO: Complete this code
+    private String idStation;
+    private Location location;
+    private List<Dock> docks;
 
     /**
      * Constructor for objects of class BikeStation.
      * //TODO complete the JavaDoc comments
      */
-    public BikeStation(  )
+    public BikeStation(String id, Location location, List<Dock> docks)
     {
-        //TODO: Complete this code
+        this.idStation = id;
+        this.location = location;
+        this.docks = new ArrayList<>(docks);
     }
 
     /**
@@ -28,7 +32,9 @@ public class BikeStation
      */
     public BikeStation(String id, Location location)
     {
-        //TODO: Complete this code
+        this.idStation = id;
+        this.location = location;
+        this.docks = new ArrayList<>();
     }
     
     /**
@@ -46,11 +52,21 @@ public class BikeStation
      * @return The unique identifier of the charging station.
      */
     public String getId()
-    {
-        //TODO: Complete this code   
-        return null;
+    {  
+        return idStation;
     }
-    
+
+    /**
+     * Set the current location of the charging station.
+     * @param location Where it is. Must not be null.
+     * @throws NullPointerException If location is null.
+     */
+    public void setId(String id)
+    {
+        
+            
+        this.idStation = id;  
+    }    
     
     /**
      * Adds a new {@link Dock} to the station.
@@ -58,7 +74,7 @@ public class BikeStation
      */
     public void addDock(Dock dock)
     {
-       //TODO: Complete this code
+       this.docks.add(dock);
     }
     
     /**
@@ -68,9 +84,20 @@ public class BikeStation
      */
     public void setLocation(Location location)
     {
-       //TODO: Complete this code   
+        if (location == null)
+            throw new NullPointerException("La localizacin debe ser NO nula");
+            
+        this.location = location;  
     }
 
+    /**
+     * @return The location of the bike station.
+     */
+    public Location getLocation()
+    {  
+        return location;
+    }
+    
     //TODO complete the rest of the code
 
 }

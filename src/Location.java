@@ -1,5 +1,6 @@
 import java.util.*;
 
+
 /**
  * Model a location in a two-dimensional grid city using (x, y) coordinates.
  * @author David J. Barnes and Michael Kölling
@@ -23,10 +24,17 @@ public class Location
             throw new IllegalArgumentException(
                         "Negative x-coordinate: " + x);
         }
+        else if (x > 19){
+            throw new IllegalArgumentException("La coordenada X no puede ser mayor que 19");
+        }
         if(y < 0) {
             throw new IllegalArgumentException(
                         "Negative y-coordinate: " + y);
-        }        
+        }
+        else if (y > 19){
+            throw new IllegalArgumentException("La coordenada Y no puede ser mayor que 19");
+        }
+        
         this.x = x;
         this.y = y;
     }
@@ -40,8 +48,23 @@ public class Location
      */
     public Location nextLocation(Location destination)
     {
-         //TODO: Complete this code
-        return null;
+        int auxX = this.getX();
+        int auxY = this.getY();
+        
+        if (auxX > destination.getX()){
+            auxX--;
+        }
+        else if (auxX < destination.getX()){
+            auxX++;
+        }
+        if (auxY > destination.getY()){
+            auxY--;
+        }
+        else if (auxY < destination.getY()){
+            auxY++;
+        }
+        
+        return new Location(auxX, auxY);
     }
 
     /**
@@ -52,8 +75,10 @@ public class Location
      */
     public int distance(Location destination)
     {
-         //TODO: Complete this code
-        return 0;
+        int difX = Math.abs(this.getX() - destination.getX());
+        int difY = Math.abs(this.getX() - destination.getY());
+        
+        return Math.max(difX, difY);
     }
     
     /**
@@ -64,8 +89,9 @@ public class Location
     @Override
     public boolean equals(Object other)
     {
-         //TODO: Complete this code
-        return true;
+        if (other instanceof Location otherL && otherL.getX() == this.getX() && otherL.getY() == this.getY()) 
+            return true;
+        return false;
     }
     
     /**
@@ -103,5 +129,27 @@ public class Location
     public int getY()
     {
         return y;
+    }
+    
+    /**
+     * Set the current X-coordinate of the location.
+     * @param x X-coordinate. Must be between 0 and 19.
+     * @throws IllegalArgumentException If x is less than 0 or more than 19.
+     */
+    public void setX(int x){
+        if (x < 0 || x > 19)
+            throw new IllegalArgumentException("La coordenada X debe estar entre 0 y 19");
+        this.x = x;
+    }
+    
+    /**
+     * Set the current Y-coordinate of the location.
+     * @param y Y-coordinate. Must be between 0 and 19.
+     * @throws IllegalArgumentException If y is less than 0 or more than 19.
+     */
+    public void setY(int y){
+        if (y < 0 || y > 19)
+            throw new IllegalArgumentException("La coordenada Y debe estar entre 0 y 19");
+        this.y = y;
     }
 }

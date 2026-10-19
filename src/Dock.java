@@ -10,7 +10,7 @@ import java.util.List;
 public class Dock
 {
     private String idDock;
-    private float chargingSpeed;
+    private int chargingSpeed;
     private float chargingFee;
     private List<ElectricBike> bikesRecharged;
     private float amountCollected;
@@ -24,7 +24,6 @@ public class Dock
     {
         //TODO: Complete this code
     }
-
     
     /**
      * Returns a string representation of the dock, including its ID, speed, fee, and the number of EVs recharged.
@@ -57,5 +56,19 @@ public class Dock
     }
 
     //TODO: Complete this code
-
+    public boolean isFree(){
+        return this.free;
+    }
+    
+    public int getChargingSpeed(){
+        return this.chargingSpeed;
+    }
+    
+    public float getChargingFee(){
+        return this.chargingFee;
+    }
+    
+    public String getId(){
+        return this.idDock;
+    }
 }

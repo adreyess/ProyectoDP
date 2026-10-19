@@ -44,8 +44,10 @@ public class BikeStation
      */
     public Dock getFreeDock()
     {
-       //TODO: Complete this code   
-        return null;        
+         return this.docks.stream()
+              .filter(Dock::isFree)
+              .findFirst()
+              .get();
     }
 
     /**
@@ -63,8 +65,6 @@ public class BikeStation
      */
     public void setId(String id)
     {
-        
-            
         this.idStation = id;  
     }    
     
@@ -74,7 +74,9 @@ public class BikeStation
      */
     public void addDock(Dock dock)
     {
-       this.docks.add(dock);
+        this.docks.add(dock);
+        
+        Collections.sort(docks, (d1, d2) -> Float.compare(d1.getChargingSpeed(), d2.getChargingSpeed()));
     }
     
     /**
@@ -85,7 +87,7 @@ public class BikeStation
     public void setLocation(Location location)
     {
         if (location == null)
-            throw new NullPointerException("La localizacin debe ser NO nula");
+            throw new NullPointerException("La localizacion debe ser NO nula");
             
         this.location = location;  
     }
@@ -98,6 +100,17 @@ public class BikeStation
         return location;
     }
     
+    public List<Dock> getAllDocks(){
+        return this.docks;
+    }
+    
+    public Dock getDockById(String id){
+        for (int i=0; i < docks.size(); i++){
+            if (docks.get(i).getId().compareTo(id) == 0)
+                return docks.get(i);
+        }
+        return null;
+    }
     //TODO complete the rest of the code
 
 }

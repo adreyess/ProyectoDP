@@ -22,7 +22,12 @@ public class Dock
     */
     public Dock(String id, int speed, float fee)
     {
-        //TODO: Complete this code
+        this.idDock = id;
+        this.chargingSpeed = speed;
+        this.chargingFee = fee;
+        this.bikesRecharged = new ArrayList<ElectricBike>();
+        this.amountCollected = 0;
+        this.free = true;
     }
     
     /**
@@ -31,31 +36,52 @@ public class Dock
      */
     public String toString()
     {
-        //TODO: Complete this code
-        return null;
+        return "(Dock: " + this.idDock + ", " + this.chargingSpeed + "wh, " + this.chargingFee + "€, " + this.bikesRecharged.size() + ", " + this.amountCollected + "€)";
     }    
 
     
     /**
      * @return The total number of {@link ElectricBike}s that have been recharged by this dock.
      */
-    public int getNumerEVRecharged(){
-       //TODO: Complete this code
-        return 0;
+    public int getNumberEBRecharged(){
+        return this.bikesRecharged.size();
     }
     
+    public List<ElectricBike> getAllBikesRecharged(){
+        return new ArrayList<ElectricBike>(this.bikesRecharged);
+    }
     
     /**
      * Simulates the charging process for an {@link ElectricBike}.
      * Increases the amount collected and registers the bike as recharged.
      * //TODO complete the JavaDoc comments
      */
-    public float recharge(   ){
-        //TODO: Complete this code
-        return 0;
+    public float recharge(ElectricBike bike){
+        int wh = bike.getBatteryCapacity() - bike.getBatteryLevel();
+        float cost = this.chargingFee * wh;
+        if (wh > 0){
+            addBikeRecharged(bike);
+            updateAmountCollected(cost);
+        }
+        return cost;
+    }
+    
+    /**
+     * Updates the amount collected
+     * //TODO complete the JavaDoc comments
+     */
+    public void updateAmountCollected(float amount){
+        this.amountCollected += amount;
     }
 
-    //TODO: Complete this code
+    /**
+     * Adds a new bike to bike
+     * //TODO complete the JavaDoc comments
+     */
+    public void addBikeRecharged(ElectricBike bike){
+        this.bikesRecharged.add(bike);
+    }
+    
     public boolean isFree(){
         return this.free;
     }
@@ -70,5 +96,29 @@ public class Dock
     
     public String getId(){
         return this.idDock;
+    }
+    
+    public float getAmountCollected(){
+        return this.amountCollected;
+    }
+    
+    public void setFree(boolean free){
+        this.free = free;
+    }
+    
+    public void setChargingSpeed(int speed){
+        this.chargingSpeed = speed;
+    }
+    
+    public void setChargingFee(float fee){
+        this.chargingFee = fee;
+    }
+    
+    public void setId(String id){
+        this.idDock = id;
+    }
+    
+    public void setAmountCollected(float amount){
+        this.amountCollected = amount;
     }
 }

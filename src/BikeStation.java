@@ -19,22 +19,11 @@ public class BikeStation
      * Constructor for objects of class BikeStation.
      * //TODO complete the JavaDoc comments
      */
-    public BikeStation(String id, Location location, List<Dock> docks)
-    {
-        this.idStation = id;
-        this.location = location;
-        this.docks = new ArrayList<>(docks);
-    }
-
-    /**
-     * Constructor for objects of class BikeStation.
-     * //TODO complete the JavaDoc comments
-     */
     public BikeStation(String id, Location location)
     {
         this.idStation = id;
         this.location = location;
-        this.docks = new ArrayList<>();
+        this.docks = new ArrayList<Dock>();
     }
     
     /**
@@ -47,7 +36,7 @@ public class BikeStation
          return this.docks.stream()
               .filter(Dock::isFree)
               .findFirst()
-              .get();
+              .orElse(null);
     }
 
     /**
@@ -76,7 +65,9 @@ public class BikeStation
     {
         this.docks.add(dock);
         
-        Collections.sort(docks, (d1, d2) -> Float.compare(d1.getChargingSpeed(), d2.getChargingSpeed()));
+        Collections.sort(docks, new ComparatorDocksId());
+        Collections.sort(docks, new ComparatorDockChargingFee());
+        Collections.sort(docks, new ComparatorDockChargingSpeed());
     }
     
     /**
@@ -101,7 +92,7 @@ public class BikeStation
     }
     
     public List<Dock> getAllDocks(){
-        return this.docks;
+        return new ArrayList<Dock>(this.docks);
     }
     
     public Dock getDockById(String id){
@@ -111,6 +102,17 @@ public class BikeStation
         }
         return null;
     }
-    //TODO complete the rest of the code
 
+    public int getNumberBikesRecharged()
+    {
+        int total = 0;
+        for (int i=0; i < this.docks.size(); i++) {
+            total += this.docks.get(i).getNumberEBRecharged();
+        }
+        return total;
+    }
+    
+    public String toString(){
+        return "(BikeStation: " + idStation + ", " + getNumberBikesRecharged() + ", " + location + ")";
+    }
 }

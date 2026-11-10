@@ -11,6 +11,8 @@ import java.util.ArrayList;
 public class ElectricBike 
 {
     //TODO: Complete this code
+    private int batteryCapacity;
+    private int batteryLevel;
 
     /**
      * Constructor of class ElectricBike.
@@ -95,7 +97,25 @@ public class ElectricBike
        //TODO: Complete this code
        return null;
     }
+    
+    /**
+     * Gets a string representation of the planned route, including the recharging stop if one exists.
+     * @return A string showing the route: {@code currentLocation -> [rechargingLocation ->] targetLocation}.
+     */
+    public int getBatteryCapacity()
+    {
+       return this.batteryCapacity;
+    }
 
+    /**
+     * Gets a string representation of the planned route, including the recharging stop if one exists.
+     * @return A string showing the route: {@code currentLocation -> [rechargingLocation ->] targetLocation}.
+     */
+    public int getBatteryLevel()
+    {
+       return this.batteryLevel;
+    }
+    
     /**
      * Checks if the current battery level is sufficient to cover a given distance.
      * //TODO complete the JavaDoc comments

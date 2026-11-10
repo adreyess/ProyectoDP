@@ -76,7 +76,7 @@ public class Location
     public int distance(Location destination)
     {
         int difX = Math.abs(this.getX() - destination.getX());
-        int difY = Math.abs(this.getX() - destination.getY());
+        int difY = Math.abs(this.getY() - destination.getY());
         
         return Math.max(difX, difY);
     }
@@ -89,9 +89,12 @@ public class Location
     @Override
     public boolean equals(Object other)
     {
-        if (other instanceof Location otherL && otherL.getX() == this.getX() && otherL.getY() == this.getY()) 
-            return true;
-        return false;
+        if (!(other instanceof Location)) {
+            return false;
+        }
+        
+        Location otherL = (Location) other;
+        return otherL.getX() == this.getX() && otherL.getY() == this.getY();
     }
     
     /**

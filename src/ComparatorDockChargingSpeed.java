@@ -17,9 +17,9 @@ public class ComparatorDockChargingSpeed implements Comparator<Dock>
      * dock's charging speed is less than, equal to, or greater than the second.
      */
     public int compare(Dock c1, Dock c2){  
-        if (c1.getChargingSpeed() > c2.getChargingSpeed())
+        if (c2.getChargingSpeed() > c1.getChargingSpeed())
             return 1;
-        else if (c1.getChargingSpeed() < c2.getChargingSpeed())
+        else if (c2.getChargingSpeed() < c1.getChargingSpeed())
             return -1;
         return 0;  
     } 

@@ -12,7 +12,7 @@ public class EBCompany
     private String name;
     private List<ElectricBike> subscribedBikes;
     private List<BikeStation> stations;
-    public static final int MOVINGCOST = 5;
+    public static final int MOVING_COST = 5;
 
     /**
      * Constructor for objects of class EVCompany.
@@ -20,7 +20,9 @@ public class EBCompany
      */
     public EBCompany(String name)
     {
-        //TODO: Complete this code
+        this.name = name;
+        this.subscribedBikes = new ArrayList<>();
+        this.stations = new ArrayList<>();
     }
 
     /**
@@ -29,9 +31,10 @@ public class EBCompany
      */
     public void addElectricBike(ElectricBike bike)
     {       
-        //TODO: Complete this code
+        subscribedBikes.add(bike);
+        
+        Collections.sort(subscribedBikes, new ComparatorEBIdBike());
     }
-
     
     /**
      * Adds a {@link BikeStation} to the company's network.
@@ -39,10 +42,11 @@ public class EBCompany
      */
     public void addBikeStation(BikeStation station)
     {       
-        //TODO: Complete this code
+        stations.add(station);
+        
+        Collections.sort(stations, new ComparatorBikeStationId());
     }
-    
-    
+          
     /**
      * Retrieves a {@link BikeStation} by its unique ID.
      * @param id The ID of the station to find.
@@ -50,7 +54,10 @@ public class EBCompany
      */
     public BikeStation getBikeStation(String id)
     {
-        //TODO: Complete this code
+        for (int i=0; i < stations.size(); i++){
+            if (stations.get(i).getId().equals(id))
+                return stations.get(i);
+        }
         return null;
     }
     
@@ -61,24 +68,60 @@ public class EBCompany
      */
     public BikeStation getBikeStation(Location location)
     {
-        //TODO: Complete this code
+        for (int i=0; i < stations.size(); i++){
+            if (stations.get(i).getLocation().equals(location))
+                return stations.get(i);
+        }
         return null;
     }
     
+    /**
+     * Retrieves a {@link BikeStation} by its {@link Location}.
+     * @param location The {@link Location} of the station to find.
+     * @return The {@link BikeStation} at the matching location, or {@code null} if not found.
+     */
+    public List<BikeStation> getAllBikeStations()
+    {
+        return new ArrayList<>(this.stations);
+    }
     
+    /**
+     * Retrieves a {@link BikeStation} by its {@link Location}.
+     * @param location The {@link Location} of the station to find.
+     * @return The {@link BikeStation} at the matching location, or {@code null} if not found.
+     */
+    public List<ElectricBike> getAllElectricBikes()
+    {
+        return new ArrayList<>(this.subscribedBikes);
+    }
+        
     /**
      * @return The total number of managed {@link BikeStation}s.
      */
     public int getNumberOfStations(){
-        //TODO: Complete this code
-        return 0;
+        return stations.size();
+    }
+    
+    /**
+     * @return The total number of managed {@link BikeStation}s.
+     */
+    public String getName(){
+        return this.name;
+    }
+    
+    /**
+     * 
+     */
+    public void setName(String name){
+        this.name = name;
     }
     
     /**
      * Clears all managed bikes and stations, resetting the company to an empty state.
      */
     public void reset(){
-        //TODO: Complete this code
+        this.subscribedBikes.clear();
+        this.stations.clear();
     }
     
 }

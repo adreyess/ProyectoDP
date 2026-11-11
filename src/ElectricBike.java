@@ -22,6 +22,7 @@ public class ElectricBike
     private int chargesCount;
     private float chargestCost;
     private List<Dock> docks;
+    private int arrivalSteps;
 
     /**
      * Constructor of class ElectricBike.
@@ -49,6 +50,7 @@ public class ElectricBike
            this.chargesCount = 0;
            this.chargestCost = 0;
            this.docks = new ArrayList<>();
+           this.arrivalSteps = -1;
     }
 
     /**
@@ -59,6 +61,34 @@ public class ElectricBike
         return this.idBike;    
     }
 
+    /**
+     * Set the current location.
+     * @param location Where it is. Must not be null.
+     * @throws NullPointerException If location is null.
+     */
+    public void setIdBike(String id)
+    {
+        this.idBike = id;
+    }
+    
+    /**
+     * @return The id of the electric bike.
+     */
+    public EBCompany getCompany()
+    {
+        return this.company;    
+    }
+
+    /**
+     * Set the current location.
+     * @param location Where it is. Must not be null.
+     * @throws NullPointerException If location is null.
+     */
+    public void setCompany(EBCompany cmpny)
+    {
+        this.company = cmpny;
+    }
+    
     /**
      * Set the current location.
      * @param location Where it is. Must not be null.
@@ -109,7 +139,116 @@ public class ElectricBike
     {
         return this.rechargingLocation;
     }
+    
+    /**
+     * Get the temporary recharging location.
+     * @return The {@link Location} of the next {@link BikeStation} to visit, or null if no recharge is planned.
+     */
+    public void setRechargingLocation(Location rloc)
+    {
+        this.rechargingLocation = rloc;
+    }
 
+    /**
+     * Set the required final target location.
+     * @param location Where to go. Must not be null.
+     * @throws NullPointerException If location is null.
+     */
+    public void setIdleCount(int idleC)
+    {
+        this.idleCount = idleC;
+    }
+    
+    /**
+     * Get the final target location.
+     * @return Where this bike is ultimately headed.
+     */
+    public int getIdleCount()
+    {
+        return this.idleCount;    
+    }
+
+    /**
+     * Set the required final target location.
+     * @param location Where to go. Must not be null.
+     * @throws NullPointerException If location is null.
+     */
+    public void setWsCharged(float ws)
+    {
+        this.wsCharged = ws;
+    }
+    
+    /**
+     * Get the final target location.
+     * @return Where this bike is ultimately headed.
+     */
+    public float getWsCharged()
+    {
+        return this.wsCharged;    
+    }
+    
+    /**
+     * Set the required final target location.
+     * @param location Where to go. Must not be null.
+     * @throws NullPointerException If location is null.
+     */
+    public void setChargesCount(int count)
+    {
+        this.chargesCount = count;
+    }
+    
+    /**
+     * Get the final target location.
+     * @return Where this bike is ultimately headed.
+     */
+    public int getChargesCount()
+    {
+        return this.chargesCount;    
+    }
+    
+    /**
+     * Set the required final target location.
+     * @param location Where to go. Must not be null.
+     * @throws NullPointerException If location is null.
+     */
+    public void setChargestCost(float cost)
+    {
+        this.chargestCost = cost;
+    }
+    
+    /**
+     * Get the final target location.
+     * @return Where this bike is ultimately headed.
+     */
+    public float getChargestCost()
+    {
+        return this.chargestCost;    
+    }
+    
+    public List<Dock> getAllDocks()
+    {
+        return new ArrayList<>(this.docks);
+    }
+    
+    /**
+     * Set the required final target location.
+     * @param location Where to go. Must not be null.
+     * @throws NullPointerException If location is null.
+     */
+    public void setArrivalSteps(int steps)
+    {
+        this.arrivalSteps = steps;
+    }
+    
+    /**
+     * Get the final target location.
+     * @return Where this bike is ultimately headed.
+     */
+    public int getArrivalSteps()
+    {
+        return this.arrivalSteps;    
+    }
+    
     /**
      * Calculates the optimal route for the bike. 
      * If there isn't enough battery to reach the target, it attempts to find an intermediate 
@@ -176,7 +315,7 @@ public class ElectricBike
      */
     public boolean enoughBattery(Location target)
     {
-        return this.batteryLevel >= this.location.distance(target) * this.company.MOVINGCOST;
+        return this.batteryLevel >= this.location.distance(target) * EBCompany.MOVING_COST;
     }
 
     /**
@@ -186,7 +325,24 @@ public class ElectricBike
      */
     public void calculateRechargingPosition()
     {
-        //TODO: Complete this code
+        Location nearest = null;
+        int cheapest = EBikeDemo.MAXX + EBikeDemo.MAXY; 
+        List<BikeStation> bs = this.company.getAllBikeStations();
+        for (int i = 0; i < this.company.getNumberOfStations(); i++){
+            if (bs.get(i).getLocation().equals(this.location))
+                continue;
+            int d1 = this.location.distance(bs.get(i).getLocation());
+            int d2 = bs.get(i).getLocation().distance(this.targetLocation);
+            if (enoughBattery(bs.get(i).getLocation()) && (d1 + d2) < cheapest){
+                cheapest = d1 + d2;
+                nearest = bs.get(i).getLocation();
+            }
+        }
+        
+        if (nearest == null)
+            this.rechargingLocation = null;
+        else
+            this.rechargingLocation = nearest;      
     }
 
     /**
@@ -203,9 +359,20 @@ public class ElectricBike
      * The battery is charged to full capacity, the cost is calculated, and the route is recalculated.
      * //TODO complete the JavaDoc comments
      */
-    public void recharge(   )
+    public void recharge()
     {
-        //TODO: Complete this code 
+        BikeStation bs = this.company.getBikeStation(this.rechargingLocation);
+        if(bs == null)
+            return;
+            
+        Dock free = bs.getFreeDock();
+        if(free == null)
+            return;
+                
+        incrementChargesCost(free.recharge(this));
+        incrementCharges();
+        addDock(free);
+        calculateRoute();
     } 
 
     /**
@@ -214,16 +381,16 @@ public class ElectricBike
      */
     public void incrementCharges()
     {
-        //TODO: Complete this code 
+        this.chargesCount++;
     }
 
     /**
      * Adds a cost amount to the total charges cost.
      * //TODO complete the JavaDoc comments
      */
-    public void incrementChargesCost(   )
+    public void incrementChargesCost(float amount)
     {
-        //TODO: Complete this code 
+        this.chargestCost += amount;
     }   
 
     /**
@@ -231,25 +398,49 @@ public class ElectricBike
      * Moves one step towards the target (recharging or final) or stays idle.
      * //TODO complete the JavaDoc comments
      */
-    public void act(Location target)
+    public void act(int step)
     {
-       if (target == this.targetLocation){
+       Location target = this.targetLocation;
+       
+       if (this.rechargingLocation != null)
+           target = this.rechargingLocation;
+           
+        if (this.location.equals(target) || !enoughBattery(target)){
            this.idleCount++;
            return;
        }
-       if (this.location.nextLocation(target) == this.targetLocation){
-           this.location = this.targetLocation;
-       }
        
+       this.location = this.location.nextLocation(target);
+       reduceBatteryLevel();
+       
+       if (this.location.equals(target)){
+           if (rechargingLocation != null)
+               recharge();
+           else
+               this.arrivalSteps = step;
+       }
     }
 
     /**
-     * Reduces the battery level by the cost of one movement step (defined in {@link EBCompany#MOVINGCOST}).
+     * Carries out a single step of the bike's actions.
+     * Moves one step towards the target (recharging or final) or stays idle.
+     * //TODO complete the JavaDoc comments
+     */
+    public void addDock(Dock d)
+    {
+       this.docks.add(d);
+    }
+    
+    /**
+     * Reduces the battery level by the cost of one movement step (defined in {@link EBCompany#MOVING_COST}).
      * Ensures the battery level does not go below zero.
      */
-    public void reduceBatteryLevel(){
-       if (this.batteryLevel > 0)
-           this.batteryLevel -= this.company.MOVINGCOST;
+    public void reduceBatteryLevel()
+    {
+       this.batteryLevel -= EBCompany.MOVING_COST;
+           
+       if (this.batteryLevel <= 0)
+           this.batteryLevel = 0;
     }
 
     /**
@@ -257,11 +448,20 @@ public class ElectricBike
      * @return A string containing the bike's name, plate, battery info, charge counts, costs, idle count, and route.
      */
     @Override
-    public String toString(){
+    public String toString()
+    {
+        String s = "(ElectricBike: " + this.idBike + ", " + this.batteryCapacity + "wh, " + this.batteryLevel + "wh, " + this.chargesCount + ", " + this.chargestCost + "€, " + this.idleCount + ", " + this.location.toString() + ", ";
         if (this.rechargingLocation != null)
-            return "(ElectricBike: " + this.idBike + ", " + this.batteryCapacity + "wh, " + this.batteryLevel + "wh, " + this.chargesCount + ", " + this.chargestCost + "€, " + this.idleCount + ", " + this.location.toString() + ", " + this.rechargingLocation.toString() + ", " + this.targetLocation.toString() + ")";
-        return "(ElectricBike" + this.idBike + ", " + this.batteryCapacity + "wh, " + this.batteryLevel + "wh, " + this.chargesCount + ", " + this.chargestCost + "€, " + this.idleCount + ", " + this.location.toString() + ", " + this.targetLocation.toString() + ")";
+            s = s + this.rechargingLocation.toString() + ", ";
+        return s + this.targetLocation.toString() + ")";
     }
 
-   
+    /**
+     * Returns a detailed string representation of the electric bike.
+     * @return A string containing the bike's name, plate, battery info, charge counts, costs, idle count, and route.
+     */
+    public String toStringFinal()
+    {
+        return "(ElectricBike: " + this.idBike + ", " + this.batteryCapacity + "wh, " + this.batteryLevel + "wh, " + this.chargesCount + ", " + this.chargestCost + "€, " + this.idleCount + ", " + this.location.toString() + ", " + this.targetLocation.toString() + ")";
+    }   
 }

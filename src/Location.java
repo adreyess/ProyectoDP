@@ -24,14 +24,14 @@ public class Location
             throw new IllegalArgumentException(
                         "Negative x-coordinate: " + x);
         }
-        else if (x > 19){
+        else if (x >= EBikeDemo.MAXX){
             throw new IllegalArgumentException("La coordenada X no puede ser mayor que 19");
         }
         if(y < 0) {
             throw new IllegalArgumentException(
                         "Negative y-coordinate: " + y);
         }
-        else if (y > 19){
+        else if (y >= EBikeDemo.MAXY){
             throw new IllegalArgumentException("La coordenada Y no puede ser mayor que 19");
         }
         
@@ -140,7 +140,7 @@ public class Location
      * @throws IllegalArgumentException If x is less than 0 or more than 19.
      */
     public void setX(int x){
-        if (x < 0 || x > 19)
+        if (x < 0 || x >= EBikeDemo.MAXX)
             throw new IllegalArgumentException("La coordenada X debe estar entre 0 y 19");
         this.x = x;
     }
@@ -151,7 +151,7 @@ public class Location
      * @throws IllegalArgumentException If y is less than 0 or more than 19.
      */
     public void setY(int y){
-        if (y < 0 || y > 19)
+        if (y < 0 || y >= EBikeDemo.MAXY)
             throw new IllegalArgumentException("La coordenada Y debe estar entre 0 y 19");
         this.y = y;
     }

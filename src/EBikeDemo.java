@@ -84,7 +84,7 @@ public class EBikeDemo
     {
         bikes.clear();
         stations.clear();
-        // TODO: Complete the code here: reset the company info
+        this.company.reset();
         createElectricBikes();
         createStations(); 
         createDocks();

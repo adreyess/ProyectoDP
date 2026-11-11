@@ -62,6 +62,8 @@ public class Dock
         if (wh > 0){
             addBikeRecharged(bike);
             updateAmountCollected(cost);
+            bike.setBatteryLevel(bike.getBatteryCapacity());
+            bike.setWsCharged(bike.getWsCharged() + wh);
         }
         return cost;
     }

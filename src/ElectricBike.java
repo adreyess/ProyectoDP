@@ -10,9 +10,17 @@ import java.util.ArrayList;
  */
 public class ElectricBike 
 {
-    //TODO: Complete this code
+    private String idBike;
+    private EBCompany company;
+    private Location location;
+    private Location targetLocation;
+    private int idleCount;
     private int batteryCapacity;
     private int batteryLevel;
+    private float wsCharged;
+    private int chargesCount;
+    private float chargestCost;
+    private List<Dock> docks;
 
     /**
      * Constructor of class ElectricBike.
@@ -25,7 +33,9 @@ public class ElectricBike
      */
     public ElectricBike(EBCompany company, Location location, Location targetLocation, String id, int batteryCapacity)
     {
-           //TODO: Complete this code
+           if (company == null || location == null || targetLocation == null){
+               throw new NullPointerException("Error, la compañia, localizacion o la posicion destino no pueden ser nulas."); 
+           }
     }
 
     /**
@@ -33,8 +43,7 @@ public class ElectricBike
      */
     public String getIdBike()
     {
-         //TODO: Complete this code
-        return null;    
+        return this.idBike;    
     }
 
     /**
@@ -53,8 +62,7 @@ public class ElectricBike
      */
     public Location getTargetLocation()
     {
-        //TODO: Complete this code
-        return null;    
+        return this.targetLocation;    
     }
 
     /**
@@ -120,9 +128,16 @@ public class ElectricBike
      * Checks if the current battery level is sufficient to cover a given distance.
      * //TODO complete the JavaDoc comments
      */
-    public boolean enoughBattery(   )
+    public boolean enoughBattery(Location target)
     {
-        //TODO: Complete this code
+        int usage = 5;
+        int totalUsage = 0;
+        int distance = distanceToTheTargetLocation();
+        for (int i=0; i <= distance; i++){
+            totalUsage += usage;
+        }
+        if (totalUsage > this.batteryLevel)
+            return false;
         return true;
     }
 
@@ -142,8 +157,7 @@ public class ElectricBike
      */
     public int distanceToTheTargetLocation()
     {
-        //TODO: Complete this code 
-        return 0;
+        return this.location.distance(this.targetLocation);
     }
 
     /**
@@ -198,8 +212,7 @@ public class ElectricBike
      */
     @Override
     public String toString(){
-        //TODO: Complete this code 
-        return null;
+        return "(" + this.idBike + ", " + this.batteryCapacity + ", " + this.batteryLevel + ", " + this.chargesCount + ", " + this.chargestCost + ", " + this.idleCount + ", " + this.location.toString() + ", " + this.targetLocation.toString() + ")";
     }
 
    

@@ -9,7 +9,10 @@ import java.util.*;
  */
 public class EBCompany  
 {
-    //TODO: Complete this code
+    private String name;
+    private List<ElectricBike> subscribedBikes;
+    private List<BikeStation> stations;
+    public static final int MOVINGCOST = 5;
 
     /**
      * Constructor for objects of class EVCompany.
@@ -50,7 +53,7 @@ public class EBCompany
         //TODO: Complete this code
         return null;
     }
-
+    
     /**
      * Retrieves a {@link BikeStation} by its {@link Location}.
      * @param location The {@link Location} of the station to find.

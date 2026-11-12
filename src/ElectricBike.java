@@ -326,7 +326,7 @@ public class ElectricBike
     public void calculateRechargingPosition()
     {
         Location nearest = null;
-        int cheapest = EBikeDemo.MAXX + EBikeDemo.MAXY; 
+        int cheapest = EBikeDemo.MAX_X + EBikeDemo.MAX_Y; 
         List<BikeStation> bs = this.company.getAllBikeStations();
         for (int i = 0; i < this.company.getNumberOfStations(); i++){
             if (bs.get(i).getLocation().equals(this.location))
@@ -368,7 +368,7 @@ public class ElectricBike
         Dock free = bs.getFreeDock();
         if(free == null)
             return;
-                
+        
         incrementChargesCost(free.recharge(this));
         incrementCharges();
         addDock(free);
@@ -414,10 +414,14 @@ public class ElectricBike
        reduceBatteryLevel();
        
        if (this.location.equals(target)){
-           if (rechargingLocation != null)
+           if (rechargingLocation != null){
                recharge();
-           else
+               return;
+           }
+           else{
                this.arrivalSteps = step;
+               return;
+           }
        }
     }
 
@@ -450,18 +454,36 @@ public class ElectricBike
     @Override
     public String toString()
     {
-        String s = "(ElectricBike: " + this.idBike + ", " + this.batteryCapacity + "wh, " + this.batteryLevel + "wh, " + this.chargesCount + ", " + this.chargestCost + "€, " + this.idleCount + ", " + this.location.toString() + ", ";
+        String s = "ElectricBike: " + this.idBike + ", " + this.batteryCapacity + "wh, " + this.batteryLevel + "wh, " + this.chargesCount + ", " + this.chargestCost + "€, " + this.idleCount + ", " + this.location.toString() + ", ";
         if (this.rechargingLocation != null)
             s = s + this.rechargingLocation.toString() + ", ";
-        return s + this.targetLocation.toString() + ")";
+        return s + this.targetLocation.toString();
     }
 
     /**
      * Returns a detailed string representation of the electric bike.
      * @return A string containing the bike's name, plate, battery info, charge counts, costs, idle count, and route.
      */
+    public String toStringArrival()
+    {
+        return "ElectricBike: " + this.idBike + " at target destination ********";
+    }
+    
+    /**
+     * Returns a detailed string representation of the electric bike.
+     * @return A string containing the bike's name, plate, battery info, charge counts, costs, idle count, and route.
+     */
     public String toStringFinal()
     {
-        return "(ElectricBike: " + this.idBike + ", " + this.batteryCapacity + "wh, " + this.batteryLevel + "wh, " + this.chargesCount + ", " + this.chargestCost + "€, " + this.idleCount + ", " + this.location.toString() + ", " + this.targetLocation.toString() + ")";
-    }   
+        return "ElectricBike: " + this.idBike + ", " + this.batteryCapacity + "wh, " + this.batteryLevel + "wh, " + this.chargesCount + ", " + this.chargestCost + "€, " + this.idleCount + ", " + this.location.toString() + ", " + this.targetLocation.toString();
+    }
+    
+    /**
+     * Returns a detailed string representation of the electric bike.
+     * @return A string containing the bike's name, plate, battery info, charge counts, costs, idle count, and route.
+     */
+    public String toStringRecharge(String dockId, int ws, float cost)
+    {
+        return "ElectricBike: " + this.idBike + " recharges: " + ws + "wh at dock: " + dockId + " with cost: " + cost + "€ ********";
+    } 
 }

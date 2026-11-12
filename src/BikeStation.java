@@ -91,11 +91,13 @@ public class BikeStation
         return location;
     }
     
-    public List<Dock> getAllDocks(){
+    public List<Dock> getAllDocks()
+    {
         return new ArrayList<Dock>(this.docks);
     }
     
-    public Dock getDockById(String id){
+    public Dock getDockById(String id)
+    {
         for (int i=0; i < docks.size(); i++){
             if (docks.get(i).getId().compareTo(id) == 0)
                 return docks.get(i);
@@ -113,6 +115,6 @@ public class BikeStation
     }
     
     public String toString(){
-        return "(BikeStation: " + idStation + ", " + getNumberBikesRecharged() + ", " + location + ")";
+        return "BikeStation: " + idStation + ", " + getNumberBikesRecharged() + ", " + location;
     }
 }

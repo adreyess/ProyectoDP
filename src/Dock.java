@@ -36,7 +36,7 @@ public class Dock
      */
     public String toString()
     {
-        return "(Dock: " + this.idDock + ", " + this.chargingSpeed + "wh, " + this.chargingFee + "€, " + this.bikesRecharged.size() + ", " + this.amountCollected + "€)";
+        return "Dock: " + this.idDock + ", " + this.chargingSpeed + "wh, " + this.chargingFee + "€, " + this.bikesRecharged.size() + ", " + this.amountCollected + "€";
     }    
 
     

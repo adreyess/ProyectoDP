@@ -1,16 +1,20 @@
 import java.util.*;
 /**
- * Provides a simple demonstration and simulation environment for the 
- * Electric Bike (EB) and Bike Station model.
- * It sets up the environment and runs the simulation for a fixed number of steps.
+ * Provides a simple demonstration and simulation environment for the
+ * electric bike (EB) and bike station model.
+ * It sets up the company, the bikes, the stations and the docks, runs the
+ * simulation for a fixed number of steps and shows the initial and final state of
+ * the system.
  *
- * Scenarios: 
+ * Scenarios, selected with the {@code DEMO} constant:
  * <ul>
- * <li>Demo SIMPLE (demo=DemoType.SIMPLE): Two bikes are created.</li>
- * <li>Demo MEDIUM (demo=DemoType.MEDIUM): Five bikes are created.</li>
- * <li>Demo ADVANCED(demo=DemoType.ADVANCED): Eight bikes are created.</li>
+ * <li>SIMPLE ({@link DemoType#SIMPLE}): two bikes are created.</li>
+ * <li>MEDIUM ({@link DemoType#MEDIUM}): five bikes are created.</li>
+ * <li>ADVANCED ({@link DemoType#ADVANCED}): eight bikes are created.</li>
  * </ul>
- * * @author DP Clasess
+ * In every scenario four stations are created, each one with four docks.
+ *
+ * @author DP classes
  * @version 2026
  */
 public class EBikeDemo
@@ -27,36 +31,39 @@ public class EBikeDemo
     /** The company managing the EBs and Bike stations. */
     private EBCompany company;
     
-    /** * The simulation's bikes; they are the electric bikes of the company. 
-     * @see ElectricBike 
+    /** The bikes of the simulation; they are the electric bikes of the company.
+     * @see ElectricBike
      */
     private List<ElectricBike> bikes; 
     
-    /** * The bike stations available in the city. 
-     * @see BikeStation 
+    /** The bike stations available in the city.
+     * @see BikeStation
      */
     private List<BikeStation> stations;
     
     /** Constant for selecting the demo scenario, using the {@link DemoType} enumeration. */
     private static final DemoType DEMO=DemoType.SIMPLE;
     
-        
+    /** Name of the company that manages the fleet of bikes and the stations. */
+    private static final String COMPANY_NAME = "EBBike Cáceres";
+    
     /**
-     * Constructor for objects of class EBikeDemo.
-     * Initializes the company, bikes, and stations lists, and sets the number of 
-     * bikes based on the {@code DEMO} constant before calling {@code reset()}.
+     * Creates the demo. It creates the company with the name given by
+     * {@link #COMPANY_NAME} and the lists of bikes and stations, and then calls
+     * {@link #reset()} to create the elements of the scenario selected by the
+     * {@code DEMO} constant.
      */
     public EBikeDemo()
     {
-        this.company = new EBCompany("EBBike Cáceres");
+        this.company = new EBCompany(COMPANY_NAME);
         this.bikes = new ArrayList<>();
         this.stations = new ArrayList<>();
         reset();
     }
 
     /**
-     * Run the demo for a fixed number of steps (50 steps).
-     * In each step, all bikes perform their action.
+     * Runs the whole demo: shows the initial information, performs
+     * {@link #MAX_STEPS} simulation steps and shows the final information.
      */
     public void run()
     {        
@@ -70,7 +77,12 @@ public class EBikeDemo
     }
 
     /**
-     * Run the demo for one step by requesting all bikes to act.
+     * Runs one step of the simulation by requesting all the bikes to act.
+     * Before each bike acts, its state is saved; afterwards the new state is
+     * compared with the old one to detect a recharge (the recharge counter has
+     * increased) or an arrival (the arrival step has changed from -1 to a number),
+     * and the corresponding line is shown. The state of the bike after acting is
+     * always shown as well.
      * @param step The current step number of the simulation.
      */
     public void step(int step)
@@ -99,9 +111,9 @@ public class EBikeDemo
     }
 
     /**
-     * Reset the demo to a starting point.
-     * Clears existing bikes and stations, resets the company, and re-creates
-     * the initial setup.
+     * Resets the demo to its starting point. It clears the bikes and the stations,
+     * resets the company and creates again the bikes, stations, docks and routes
+     * of the scenario selected by the {@code DEMO} constant.
      */
     public void reset()
     {
@@ -116,9 +128,10 @@ public class EBikeDemo
 
     
     /**
-     * Creates the {@link ElectricBike}s based on {@code numBikesCreated}, assigns them
-     * starting and target {@link Location}s, and adds them to the company.
-     * The bikes list is sorted by plate using {@link ComparatorEBPlate}.
+     * Creates the {@link ElectricBike}s of the scenario, assigns them their starting
+     * and target {@link Location}s, and adds them both to the company and to the
+     * local list of bikes. The number of bikes is given by
+     * {@link DemoType#getNumBikesToCreate()}.
      */
     private void createElectricBikes() 
     {
@@ -136,8 +149,9 @@ public class EBikeDemo
     
 
     /**
-     * Creates predefined {@link BikeStation}s and adds them to the company.
-     * The stations list is sorted by ID using {@link ComparatorBikeStationId}.
+     * Creates the predefined {@link BikeStation}s of the scenario and adds them
+     * both to the company and to the local list of stations. The number of stations
+     * is given by {@link DemoType#getNumStationsToCreate()}.
      */
     private void createStations() 
     {  
@@ -151,8 +165,11 @@ public class EBikeDemo
     }
 
     /**
-     * Creates a fixed number of {@link Dock} units for each {@link BikeStation}
-     * and orders the Docks within each station.
+     * Creates the {@link Dock} units of every {@link BikeStation}. The identifier of
+     * each dock is the station identifier followed by {@code "_00"} and its index,
+     * and its charging speed and fee grow with that index. The number of docks per
+     * station is given by {@link DemoType#getNumDocksToCreate()}; the station keeps
+     * them ordered.
      */
     private void createDocks() 
     {  
@@ -166,8 +183,8 @@ public class EBikeDemo
     
     
      /**
-      * Instructs each {@link ElectricBike} to calculate its initial route.
-      * This determines if an intermediate recharging stop is necessary.
+      * Instructs each {@link ElectricBike} to calculate its initial route, which
+      * determines whether an intermediate recharging stop is necessary.
       */
      private void configureRoutes() 
      {
@@ -177,8 +194,9 @@ public class EBikeDemo
      }
 
     /**
-     * Displays the initial information for the simulation, including 
-     * the details of all {@link ElectricBike}s and {@link BikeStation}s.
+     * Displays the initial information of the simulation: the name of the company,
+     * the state of every {@link ElectricBike} and, for every {@link BikeStation},
+     * the station and its docks.
      */
     private void showInitialInfo() 
     {
@@ -208,9 +226,9 @@ public class EBikeDemo
     }
 
     /**
-     * Displays the final information after the simulation has run.
-     * bikes are sorted by arrival step using {@link ComparatorEBArrivingStep}.
-     * Stations are sorted by the number of recharges using {@link ComparatorBikeStationNumerRecharged}.
+     * Displays one line of the simulation of a step.
+     * @param n The step number.
+     * @param s The text that describes what happened to a bike in that step.
      */
     private void showStep(int n, String s) 
     {
@@ -219,8 +237,16 @@ public class EBikeDemo
     
     /**
      * Displays the final information after the simulation has run.
-     * bikes are sorted by arrival step using {@link ComparatorEBArrivingStep}.
-     * Stations are sorted by the number of recharges using {@link ComparatorBikeStationNumerRecharged}.
+     * The bikes are shown ordered by arrival step, with the bikes that did not
+     * arrive last, and by identifier as a tie-breaker; under each bike, the
+     * identifiers of the docks where it recharged. The stations are shown ordered
+     * by number of recharges (descending) and by identifier as a tie-breaker, with
+     * each dock and, under it, the bikes recharged there.
+     * The lists are copied before sorting, so the state of the demo is not altered.
+     * @see ComparatorEBArrivalStep
+     * @see ComparatorEBIdBike
+     * @see ComparatorBikeStationNumberRecharged
+     * @see ComparatorBikeStationId
      */
     private void showFinalInfo() 
     {
@@ -257,7 +283,7 @@ public class EBikeDemo
             List<Dock> ds = sbs.get(i).getAllDocks();
             for (int j = 0; j < ds.size(); j++){
                 System.out.println("(" + ds.get(j).toString() + ")");
-                List<ElectricBike> eb = ds.get(i).getAllBikesRecharged();
+                List<ElectricBike> eb = ds.get(j).getAllBikesRecharged();
                 for (int k = 0; k < eb.size(); k++)
                 System.out.println("(" + eb.get(k).toStringFinal() + ")");
             }

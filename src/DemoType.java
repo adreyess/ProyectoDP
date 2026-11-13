@@ -1,9 +1,10 @@
 /**
- * Enumeration that defines the types of pre-configured demonstration scenarios 
- * for the simulation. Each type specifies the number of bikes, stations, 
- * and docks to be created.
- * * @author DP classes
- * @version 2025.20.10
+ * Enumeration that defines the types of pre-configured demonstration scenarios
+ * for the simulation. Each type has a descriptive name and specifies the number
+ * of bikes, stations and docks to be created.
+ *
+ * @author DP classes
+ * @version 2026.10.13
  */
 public enum DemoType
 {

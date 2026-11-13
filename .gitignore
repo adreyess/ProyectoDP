@@ -26,3 +26,4 @@ replay_pid*
 *.pdf
 Ficheros de salida de datos generados/
 doc/
+*.txt

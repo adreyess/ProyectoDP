@@ -6,7 +6,7 @@ Proyecto de **Desarrollo de Programas** · Curso 2026/2027 · Grado en Ingenier�
 
 ## 1. Miembros del grupo
 
-**Adrián Reyes Sosa** — proyecto individual.
+**Adrián Reyes Sosa**.
 
 ## 2. Clase que se ejecuta para realizar la simulación
 
@@ -94,4 +94,4 @@ fuera de rango, lanzando `NullPointerException` o `IllegalArgumentException`.
 
 ### Repositorio Git
 
-Historial de desarrollo del proyecto: <https://github.com/adreyess/ProyectoDP>
+<https://github.com/adreyess/ProyectoDP>

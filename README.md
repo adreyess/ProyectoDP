@@ -42,6 +42,9 @@ generado con los tres; por defecto queda en `SIMPLE`. En cada escenario se crean
 La salida por consola de los tres escenarios coincide con la de los ficheros de referencia del
 enunciado.
 
+Para respetar las instrucciones de entrega, se pueden comprobar las salidas generadas
+de este proyecto en el repositorio de GitHub, organizadas en la carpeta outputs.
+
 ## 3. Extras del proyecto
 
 ### Comparadores propios (7 clases)
